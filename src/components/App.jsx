@@ -3,6 +3,8 @@ import { nanoid } from 'nanoid';
 import { PhonebookForm } from './PhonebookForm/PhonebookForm';
 import { ContactsList } from './ContactsList/ContactsList';
 import { Filter } from './Filter/Filter';
+import { Section } from './SectionTitle/SectionTitle';
+import { Сontainer } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -16,7 +18,7 @@ export class App extends Component {
     filter: '',
   };
 
-  addContacts = (name, number) => {
+  addContacts = ({ name, number }) => {
     console.log(name, number);
     if (this.state.contacts.find(user => user.name === name)) {
       alert(`${name} is already in contacts`);
@@ -28,15 +30,20 @@ export class App extends Component {
     }));
   };
 
+  // addContacts = (name, number) => {
+  //   console.log(name, number);
+  //   if (this.state.contacts.find(user => user.name === name)) {
+  //     alert(`${name} is already in contacts`);
+  //     return;
+  //   }
+
+  //   this.setState(prevState => ({
+  //     contacts: [...prevState.contacts, { id: nanoid(), name, number }],
+  //   }));
+  // };
 
   filterContact = e => {
     this.setState({ filter: e.currentTarget.value });
-  };
-
-  deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
   };
 
   getFilteredContact = () => {
@@ -48,20 +55,29 @@ export class App extends Component {
     );
   };
 
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
   render() {
     return (
-      <div>
-        <h1>Phonebook</h1>
-        <PhonebookForm onSubmit={this.addContacts} />
-        <h2>Contacts</h2>
-        <Filter filterValue={this.state.filter} onChange={this.filterContact} />
-        <ContactsList
-          contacts={this.getFilteredContact()}
-          onDelete={this.deleteContact}
-        />
-      </div>
+      <Сontainer>
+        <Section title="Phonebook">
+          <PhonebookForm onSubmit={this.addContacts} />
+        </Section>
+        <Section title="Contacts">
+          <Filter
+            filterValue={this.state.filter}
+            onChange={this.filterContact}
+          />
+          <ContactsList
+            contacts={this.getFilteredContact()}
+            onDelete={this.deleteContact}
+          />
+        </Section>
+      </Сontainer>
     );
   }
 }
-
-

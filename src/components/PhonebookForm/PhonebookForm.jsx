@@ -1,14 +1,17 @@
+import PropTypes from 'prop-types';
+
 export const PhonebookForm = ({ onSubmit }) => {
   const handleSubmit = event => {
     event.preventDefault();
 
     const { name, number } = event.target.elements;
     onSubmit(name.value, number.value);
+    name.value = '';
+    number.value = '';
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Phonebook</h2>
       <label>
         Name
         <input
@@ -19,14 +22,21 @@ export const PhonebookForm = ({ onSubmit }) => {
           required
         />
       </label>
-      <label>Number <input
-  type="tel"
-  name="number"
-  pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-  title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-  required
-/></label>
+      <label>
+        Number{' '}
+        <input
+          type="tel"
+          name="number"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
+        />
+      </label>
       <button type="submit">Add contact</button>
     </form>
   );
 };
+
+PhonebookForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+}
